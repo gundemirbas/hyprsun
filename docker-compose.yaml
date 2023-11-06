@@ -1,0 +1,27 @@
+ersion: "3.8"
+services:
+  desktop:
+    cap_add: [ "CAP_SYS_ADMIN", "CAP_SYS_NICE" ]
+    network_mode: host
+    image: hypr
+    container_name: hypr
+    restart: unless-stopped
+    entrypoint: ["sudo", "sh", "/home/user/run.sh"]
+#    entrypoint: ["tail", "-f", "/dev/null"]
+    init: true
+    security_opt:
+      - seccomp:unconfined
+      - apparmor:unconfined
+    tmpfs:
+      - /run
+      - /run/lock
+      - /tmp
+    volumes:
+      - /dev/input:/dev/input:rw
+      - /run/udev:/run/udev:rw
+      - /dev/shm:/dev/shm:rw
+      - ./home:/home/user:rw
+    devices:
+      - /dev/tty
+      - /dev/tty0
+      - /dev/tty1
